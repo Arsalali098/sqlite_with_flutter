@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ReusableDetailedCard extends StatefulWidget {
-  const ReusableDetailedCard({super.key});
+class ReusableDetailedCard extends StatelessWidget {
 
-  @override
-  State<ReusableDetailedCard> createState() => _ReusableDetailedCardState();
-}
+  final String imagePath;
+  final String title;
+  final String price;
+  final Color color1;
+  final String category;
+  final String description;
 
-class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
+  const ReusableDetailedCard({super.key, required this.imagePath, required this.title, required this.price, required this.color1, required this.category, required this.description});
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -19,13 +22,15 @@ class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
-          style: IconButton.styleFrom(backgroundColor: Colors.white),
-        ),
+            onPressed: () => Navigator.pop(context),
+            padding: EdgeInsets.only(left: 10, right: 10),
+            icon: const Icon(Icons.arrow_back),
+            style: IconButton.styleFrom(backgroundColor: Colors.white),
+          ),
         actions: [
           IconButton(
             onPressed: () {},
+            padding: EdgeInsets.only(left: 10, right: 10),
             icon: const Icon(Icons.favorite_border),
             style: IconButton.styleFrom(backgroundColor: Colors.white),
           ),
@@ -37,7 +42,7 @@ class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
             DiagonalColorBox(
               width: screenWidth,
               height: screenHeight,
-              color1: const Color(0xFF94dffa),
+              color1: color1,
               color2: Colors.white,
             ),
             Padding(
@@ -48,11 +53,11 @@ class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
                   children: [
                     Spacer(),
                     Image.asset(
-                      "assets/images/running shoes.png",
+                      imagePath,
                       width: screenWidth * 0.9,
                       fit: BoxFit.cover,
-                    ),                    Spacer(),
-
+                    ),
+                    // Spacer(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,14 +66,14 @@ class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Black Dashers",
+                              title,
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          const Text(
-                            "\$120.00",
+                          Text(
+                            price,
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -81,7 +86,7 @@ class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Men's Shoes",
+                              category,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -105,7 +110,7 @@ class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
                           children: [
                             Expanded(
                               child: Text(
-                                  "The Black Dasher reimagines the traditional running shoe with natural materials engineered for serious performance",
+                                description,
                                 style: TextStyle(
                                   fontSize: 16,
                                 ),
@@ -233,7 +238,13 @@ class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
                         Container(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              onTap: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("${title} added to cart!")),
+                                );
+                              };
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
