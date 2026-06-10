@@ -64,8 +64,8 @@ class _CarousleSliderState extends State<CarousleSlider> {
       ),
 
 
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+      body:Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -92,60 +92,62 @@ class _CarousleSliderState extends State<CarousleSlider> {
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Trending Shoes",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Trending Shoes",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "See All",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                        ),
-                      )
-                    ]
+                        Text(
+                          "See All",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        )
+                      ]
                   )
                 ],
               ),
             ),
-            CarouselSlider(
-              items: productData.map((product) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProductDetailScreen(product: product),
-                      ),
-                    );
+            Expanded(
+              child: CarouselSlider(
+                items: productData.map((product) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailScreen(product: product),
+                        ),
+                      );
+                    },
+                    child: ReusableCard(
+                      bgColor: product.color.withOpacity(0.2),
+                      borderColor: product.color,
+                      imagePath: product.imagePath,
+                      title: product.name.replaceAll(" ", "\n"),
+                      price: product.price,
+                    ),
+                  );
+                }).toList(),
+                options: CarouselOptions(
+                  enlargeCenterPage: true,
+                  height: 400,
+                  aspectRatio: 1.0,
+                  viewportFraction: 0.8,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  onPageChanged: (index, _) {
+                    setState(() {
+                      currentIdx = index;
+                    });
                   },
-                  child: ReusableCard(
-                    bgColor: product.color.withOpacity(0.2),
-                    borderColor: product.color,
-                    imagePath: product.imagePath,
-                    title: product.name.replaceAll(" ", "\n"),
-                    price: product.price,
-                  ),
-                );
-              }).toList(),
-              options: CarouselOptions(
-                enlargeCenterPage: true,
-                height: 400,
-                aspectRatio: 1.0,
-                viewportFraction: 0.8,
-                initialPage: 0,
-                enableInfiniteScroll: true,
-                onPageChanged: (index, _) {
-                  setState(() {
-                    currentIdx = index;
-                  });
-                },
+                ),
               ),
             ),
             Padding(
@@ -186,14 +188,54 @@ class _CarousleSliderState extends State<CarousleSlider> {
                         ),
                       ]
                   ),
-
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only( top: 8.0),
+                        child: Container(
+                          width: 90,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xffeaeaea),
+                          ),
+                          child: Image.asset("assets/images/small shoes 2.png", width: 70, height: 70,),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only( top: 8.0),
+                        child: Container(
+                          width: 90,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xffeaeaea),
+                          ),
+                          child: Image.asset("assets/images/small shoes 2.png", width: 70, height: 70,),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only( top: 8.0),
+                        child: Container(
+                          width: 90,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xffeaeaea),
+                          ),
+                          child: Image.asset("assets/images/small shoes 2.png", width: 70, height: 70,),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
-            
+
           ],
         ),
-      ),
+      )
     );
   }
 }
