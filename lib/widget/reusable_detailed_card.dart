@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ReusableDetailedCard extends StatelessWidget {
+class ReusableDetailedCard extends StatefulWidget {
 
   final String imagePath;
   final String title;
@@ -10,6 +10,14 @@ class ReusableDetailedCard extends StatelessWidget {
   final String description;
 
   const ReusableDetailedCard({super.key, required this.imagePath, required this.title, required this.price, required this.color1, required this.category, required this.description});
+
+  @override
+  State<ReusableDetailedCard> createState() => _ReusableDetailedCardState();
+}
+
+class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
+  final List<String> sizes = ["5", "6", "7", "8", "9"];
+  String? selectedSize;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +50,7 @@ class ReusableDetailedCard extends StatelessWidget {
             DiagonalColorBox(
               width: screenWidth,
               height: screenHeight,
-              color1: color1,
+              color1: widget.color1,
               color2: Colors.white,
             ),
             Padding(
@@ -53,7 +61,7 @@ class ReusableDetailedCard extends StatelessWidget {
                   children: [
                     Spacer(),
                     Image.asset(
-                      imagePath,
+                      widget.imagePath,
                       width: screenWidth * 0.9,
                       fit: BoxFit.cover,
                     ),
@@ -66,14 +74,14 @@ class ReusableDetailedCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              title,
+                              widget.title,
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           Text(
-                            price,
+                            widget.price,
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -86,7 +94,7 @@ class ReusableDetailedCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              category,
+                              widget.category,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -110,7 +118,7 @@ class ReusableDetailedCard extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                description,
+                                widget.description,
                                 style: TextStyle(
                                   fontSize: 16,
                                 ),
@@ -126,75 +134,30 @@ class ReusableDetailedCard extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Container(
-                                  padding: EdgeInsets.all(9),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text("5", style: TextStyle(fontSize: 20),),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Container(
-                                  padding: EdgeInsets.all(9),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text("6", style: TextStyle(fontSize: 20),),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Container(
-                                  padding: EdgeInsets.all(9),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text("7", style: TextStyle(fontSize: 20),),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Container(
-                                  padding: EdgeInsets.all(9),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text("8", style: TextStyle(fontSize: 20),),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Container(
-                                  padding: EdgeInsets.all(9),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text("9", style: TextStyle(fontSize: 20),),
-                                  ),
-                                ),
+                                ...sizes.map((size) {
+                                  final bool isSelected = size == selectedSize;
+                                  return ChoiceChip(
+                                      label: Text(size),
+                                      selected: isSelected,
+                                      labelStyle: TextStyle(
+                                        color: isSelected ? Colors.black : Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      showCheckmark: false,
+                                      selectedColor: widget.color1,
+                                      onSelected: (_) {
+                                        setState(() {
+                                          selectedSize = size;
+                                        });
+                                      },
+                                      shape: CircleBorder(
+                                        side: BorderSide(
+                                          color: Colors.black, // Border color
+                                          width: 1,           // Border width
+                                        ),
+                                      ),
+                                  );
+                                }).toList(),
                               ],
                             ),
                             Row(
@@ -238,13 +201,11 @@ class ReusableDetailedCard extends StatelessWidget {
                         Container(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: (){
-                              onTap: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("${title} added to cart!")),
-                                );
-                              };
-                            },
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("${widget.title} added to cart!")),
+                              );
+                              },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
