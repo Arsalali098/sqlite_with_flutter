@@ -17,6 +17,8 @@ class ReusableDetailedCard extends StatefulWidget {
 
 class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
   final List<String> sizes = ["5", "6", "7", "8", "9"];
+  final List<Color> colors = [Colors.blue, Colors.black];
+  Color? selectedColor;
   String? selectedSize;
 
   @override
@@ -163,35 +165,31 @@ class _ReusableDetailedCardState extends State<ReusableDetailedCard> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Container(
-                                  padding: EdgeInsets.all(9),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Container(
-                                      width: 20,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.blue,
+                                ...colors.map((color) {
+                                  final bool isSelected = color == selectedColor;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedColor = color;
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Container(
+                                        width: 35,
+                                        height: 35,
+                                        decoration: BoxDecoration(
+                                          color: color,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: isSelected ? widget.color1 : Colors.grey,
+                                            width: isSelected ? 4 : 1,
+                                          ),
+                                        ),
                                       ),
-                                    )
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Container(
-                                    width: 20,
-                                    height: 20,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.black,
                                     ),
-                                ),
+                                  );
+                                }).toList(),
                               ],
                             ),
                           ],

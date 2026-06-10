@@ -43,10 +43,77 @@ class _CarousleSliderState extends State<CarousleSlider> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          padding: EdgeInsets.only(left: 10, right: 10),
+          icon: const Icon(Icons.notes),
+          style: IconButton.styleFrom(iconSize: 30),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            padding: EdgeInsets.only(left: 10, right: 10),
+            icon: const Icon(Icons.favorite_border),
+            style: IconButton.styleFrom(backgroundColor: Colors.white),
+          ),
+        ],
+      ),
+
+
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: "Search",
+                  hintText: "Search",
+                  prefixIcon: Icon(Icons.search),
+                  filled: true,
+                  fillColor: Colors.grey[300],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(28.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Trending Shoes",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "See All",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      )
+                    ]
+                  )
+                ],
+              ),
+            ),
             CarouselSlider(
               items: productData.map((product) {
                 return GestureDetector(
@@ -61,7 +128,7 @@ class _CarousleSliderState extends State<CarousleSlider> {
                   child: ReusableCard(
                     bgColor: product.color.withOpacity(0.2),
                     borderColor: product.color,
-                    imagePath: "assets/images/Shoes_images-removebg-preview.png",
+                    imagePath: product.imagePath,
                     title: product.name.replaceAll(" ", "\n"),
                     price: product.price,
                   ),
@@ -69,7 +136,7 @@ class _CarousleSliderState extends State<CarousleSlider> {
               }).toList(),
               options: CarouselOptions(
                 enlargeCenterPage: true,
-                height: 500,
+                height: 400,
                 aspectRatio: 1.0,
                 viewportFraction: 0.8,
                 initialPage: 0,
@@ -88,12 +155,42 @@ class _CarousleSliderState extends State<CarousleSlider> {
                 count: productData.length,
                 axisDirection: Axis.horizontal,
                 effect: const ExpandingDotsEffect(
+                  dotWidth: 8,
+                  dotHeight: 8,
                   activeDotColor: Colors.black,
                   dotColor: Colors.grey,
                 ),
               ),
-
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Offers",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "See All",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ]
+                  ),
+
+                ],
+              ),
+            ),
+            
           ],
         ),
       ),

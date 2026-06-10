@@ -13,10 +13,12 @@ class ReusableCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeigth = MediaQuery.of(context).size.height;
+
     return Center(
       child: Container(
-          width: screenWidth * 0.8,
-          height: 500,
+          width: screenWidth * 0.7,
+          height: screenHeigth * 0.5,
           decoration: BoxDecoration(
               color: bgColor,
               borderRadius: BorderRadius.circular(20),
@@ -24,15 +26,22 @@ class ReusableCard extends StatelessWidget {
           ),
           child: Stack(
             children: [
-              Image.asset(
-                imagePath,
-                width: 300,
-                height: 390,
-                fit: BoxFit.cover,
-                alignment: AlignmentGeometry.topCenter,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                spacing: 20,
+                children: [
+                  Image.asset(
+                    imagePath,
+                    width: double.infinity,
+                    height: screenHeigth * 0.3,
+                    fit: BoxFit.contain,
+                    alignment: Alignment.center,
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
               Padding(
-                padding: const EdgeInsets.all(26.0),
+                padding: EdgeInsets.all(screenWidth * 0.06),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +49,7 @@ class ReusableCard extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 25,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -53,13 +62,13 @@ class ReusableCard extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
-                            fontSize: 30,
+                            fontSize: 25,
                           ),
                         ),
                         CircleAvatar(
-                          radius: 20,
+                          radius: 22,
                           backgroundColor: Colors.white,
-                          child: const Icon(Icons.add, color: Colors.black, size: 30,),
+                          child: const Icon(Icons.add, color: Colors.black, size: 28,),
                         )
                       ],
                     )
